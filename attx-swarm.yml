@@ -129,7 +129,7 @@ services:
     #     constraints: [node.hostname == attx-swarm-2]
 
   gmapi:
-    image: attxproject/gm-api:1.1
+    image: attxproject/gm-api:1.2
 #    volumes:
 #      - /attx-data/gm-api:/app/data
     networks:
