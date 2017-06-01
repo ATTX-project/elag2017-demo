@@ -45,7 +45,7 @@ services:
   frontend:
     image: tenforce/unified-views-frontend:latest
     volumes:
-      - shared_config:/config                                                           
+      - shared_config:/config
       - shared_dpu:/unified-views/dpu
       - shared_lib:/unified-views/lib
       - shared_scripts:/unified-views/scripts

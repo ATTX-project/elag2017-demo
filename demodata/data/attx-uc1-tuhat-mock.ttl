@@ -1,0 +1,18 @@
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix tuhat: <http://data.hulib.helsinki.fi/tuhat/> .
+
+<http://data.hulib.helsinki.fi/id/tuhat/2fb64bc9-4b9f-4945-8e38-86f2dad19010>
+  a <http://data.hulib.helsinki.fi/attx/types/Infrastructure> ;
+  dct:identifier "2fb64bc9-4b9f-4945-8e38-86f2dad19010" ;
+  dct:title "CLARIN - Common Language Resource and Technology Infrastructure in Finland" ;
+  tuhat:link <http://www.helsinki.fi/finclarin> ;
+  tuhat:link <http://www.kielipankki.fi/> ;
+  tuhat:link <http://urn.fi/urn:nbn:fi:research-infras-201607252> .
+
+<http://data.hulib.helsinki.fi/id/tuhat/50883c88-e02e-47d1-a56c-f0ac8717a703>
+  a <http://data.hulib.helsinki.fi/attx/types/Publication> ;
+  dct:title "On Finite-State Tonology with Autosegmental Representations" ;
+  dct:identifier "50883c88-e02e-47d1-a56c-f0ac8717a703" .
+
+<http://data.hulib.helsinki.fi/id/tuhat/2fb64bc9-4b9f-4945-8e38-86f2dad19010>
+  tuhat:relatedPub <http://data.hulib.helsinki.fi/id/tuhat/50883c88-e02e-47d1-a56c-f0ac8717a703> .
