@@ -56,6 +56,7 @@ services:
     depends_on:
       - shared
       - backend
+      - mysql
     deploy:
       placement:
         constraints: [node.hostname == attx-swarm-1]
@@ -70,12 +71,13 @@ services:
 #      - frontend
 
   attx-dpus:
-    image: attxproject/uv-attx-dpus:1.0
+    image: attxproject/uv-attx-dpus:elag2017
     networks:
       - attx
     depends_on:
       - mysql
       - backend
+      - frontend
 #      - uv-dpus
 
   wfapi:
@@ -85,18 +87,18 @@ services:
     depends_on:
       - mysql
 
-  essiren:
-    image: attxproject/essiren:1.0
-#    volumes:
-#      - /attx-data/essiren:/usr/share/elasticsearch/data
-    networks:
-      - attx
-    ports:
-      - 9200:9200
-      - 9300:9300
-    deploy:
-      placement:
-        constraints: [node.hostname == attx-swarm-2]
+#   essiren:
+#     image: attxproject/essiren:1.0
+# #    volumes:
+# #      - /attx-data/essiren:/usr/share/elasticsearch/data
+#     networks:
+#       - attx
+#     ports:
+#       - 9200:9200
+#       - 9300:9300
+#     deploy:
+#       placement:
+#         constraints: [node.hostname == attx-swarm-2]
 
 
   elasticsearch5:
@@ -108,24 +110,26 @@ services:
     ports:
       - 9210:9210
       - 9310:9310
-    deploy:
-      placement:
-        constraints: [node.hostname == attx-swarm-2]
+    # deploy:
+    #   placement:
+    #     constraints: [node.hostname == attx-swarm-2]
 
   fuseki:
-    image: attxproject/attx-fuseki:1.0
+    image: attxproject/attx-fuseki:elag2017
 #    volumes:
 #      - /attx-data/fuseki:/data/fuseki
     networks:
       - attx
     environment:
       - ADMIN_PASSWORD=pw123
-    deploy:
-      placement:
-        constraints: [node.hostname == attx-swarm-2]
+    ports:
+      - 3030:3030
+    # deploy:
+    #   placement:
+    #     constraints: [node.hostname == attx-swarm-2]
 
   gmapi:
-    image: attxproject/gm-api:1.0
+    image: attxproject/gm-api:1.1
 #    volumes:
 #      - /attx-data/gm-api:/app/data
     networks:
@@ -136,9 +140,18 @@ services:
       - essiren
       - elasticsearch5
       - wfapi
-    deploy:
-      placement:
-        constraints: [node.hostname == attx-swarm-2]
+    # deploy:
+    #   placement:
+    #     constraints: [node.hostname == attx-swarm-2]
+
+  demodata:
+    image: attxproject/demodata:elag2017
+    networks:
+      - attx
+    ports:
+      - 80:80
+    volumes:
+      - demo_data:/usr/share/nginx/html
 
 networks:
   attx:
@@ -149,3 +162,4 @@ volumes:
   shared_dpu:
   shared_lib:
   shared_scripts:
+  demo_data:

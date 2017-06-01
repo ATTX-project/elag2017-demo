@@ -1,5 +1,5 @@
 for i in 1 2 3; do
-  docker-machine create -d virtualbox --virtualbox-memory "3072" attx-swarm-$i
+  docker-machine create -d virtualbox --virtualbox-memory "4096" attx-swarm-$i
 done
 
 eval $(docker-machine env attx-swarm-1)
