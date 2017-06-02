@@ -101,7 +101,7 @@ services:
 #         constraints: [node.hostname == attx-swarm-2]
 
 
-  elasticsearch5:
+  es5:
     image: attxproject/attx-es5:1.0
 #    volumes:
 #      - /attx-data/elasticsearch5:/usr/share/elasticsearch/data
