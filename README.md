@@ -10,10 +10,10 @@ In order to run the demo in the current repository VirtualBox is required with e
 * `sudo apt-get install -y virtualbox virtualbox-ext-pack virtualbox-dkms`
 
 Steps for running the demo:
-1. Deploy nodes `./docker-machine-Swarm.sh`
-2. Deploy nodes `eval $(docker-machine env attx-swarm-1)`
-3. Deploy attx stack `docker stack deploy -c attx-swarm.yml attx`
-4. If `attx_frontend` is down one can restart it by following:
+1. Create a three-node Docker Swarm: `./docker-machine-Swarm.sh`
+2. Set the localhost terminal to redirect Docker commands to the newly created Swarm master ("attx-swarm-1"): `eval $(docker-machine env attx-swarm-1)`
+3. Deploy the ATTX stack `docker stack deploy -c attx-swarm.yml attx`
+4. If the UnifiedViews UI (`http://<attx-swarm-1_IP>:8080/unifiedviews/`) is down, one can restart it by running the following commands:
     * run `docker service scale attx_frontend=0`;
     * wait for ~10 seconds;
     * run `docker service scale attx_frontend=1`.
