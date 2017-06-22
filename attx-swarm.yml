@@ -2,7 +2,7 @@ version: '3'
 services:
 
   mysql:
-    image: tenforce/unified-views-mariadb:feat-compact-modular
+    image: attxtest/unified-views-mariadb:stable-1.2
 #    volumes:
 #      - /uv-data/mysql:/var/lib/mysql
     environment:
@@ -14,25 +14,31 @@ services:
         constraints: [node.hostname == attx-swarm-1]
 
   shared:
-    image: attxproject/uv-attx-shared:1.0
+    image: attxtest/unified-views-shared:stable-1.2
     volumes:
-      - shared_config:/config
+      - shared_config:/unified-views/config
       - shared_dpu:/unified-views/dpu
       - shared_lib:/unified-views/lib
-      - shared_scripts:/unified-views/scripts
+    #   - shared_scripts:/unified-views/scripts
+      - shared_backend:/unified-views/backend
+      - shared_logs:/unified-views/logs
     networks:
       - attx
+    depends_on:
+      - mysql
     deploy:
       placement:
         constraints: [node.hostname == attx-swarm-1]
 
   backend:
-    image: tenforce/unified-views-backend:latest
+    image: attxtest/unified-views-backend:stable-1.2
     volumes:
-      - shared_config:/config
+      - shared_config:/unified-views/config
       - shared_dpu:/unified-views/dpu
       - shared_lib:/unified-views/lib
-      - shared_scripts:/unified-views/scripts
+    #   - shared_scripts:/unified-views/scripts
+      - shared_backend:/unified-views/backend
+      - shared_logs:/unified-views/logs
     networks:
       - attx
     depends_on:
@@ -43,12 +49,14 @@ services:
         constraints: [node.hostname == attx-swarm-1]
 
   frontend:
-    image: tenforce/unified-views-frontend:latest
+    image: attxtest/unified-views-frontend:stable-1.2
     volumes:
-      - shared_config:/config
+      - shared_config:/unified-views/config
       - shared_dpu:/unified-views/dpu
       - shared_lib:/unified-views/lib
-      - shared_scripts:/unified-views/scripts
+    #   - shared_scripts:/unified-views/scripts
+      - shared_backend:/unified-views/backend
+      - shared_logs:/unified-views/logs
     ports:
       - 8080:8080
     networks:
@@ -71,14 +79,16 @@ services:
 #      - frontend
 
   attx-dpus:
-    image: attxproject/uv-attx-dpus:elag2017
+    image: attxtest/uv-attx-dpus:elag2017
     networks:
       - attx
     depends_on:
       - mysql
       - backend
       - frontend
-#      - uv-dpus
+    deploy:
+      placement:
+        constraints: [node.hostname == attx-swarm-1]
 
   wfapi:
     image: attxproject/wf-api:1.0
@@ -161,5 +171,7 @@ volumes:
   shared_config:
   shared_dpu:
   shared_lib:
-  shared_scripts:
+  # shared_scripts:
   demo_data:
+  shared_logs:
+  shared_backend:
