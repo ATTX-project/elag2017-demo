@@ -19,7 +19,6 @@ services:
       - shared_config:/unified-views/config
       - shared_dpu:/unified-views/dpu
       - shared_lib:/unified-views/lib
-    #   - shared_scripts:/unified-views/scripts
       - shared_backend:/unified-views/backend
       - shared_logs:/unified-views/logs
     networks:
@@ -36,7 +35,6 @@ services:
       - shared_config:/unified-views/config
       - shared_dpu:/unified-views/dpu
       - shared_lib:/unified-views/lib
-    #   - shared_scripts:/unified-views/scripts
       - shared_backend:/unified-views/backend
       - shared_logs:/unified-views/logs
     networks:
@@ -54,7 +52,6 @@ services:
       - shared_config:/unified-views/config
       - shared_dpu:/unified-views/dpu
       - shared_lib:/unified-views/lib
-    #   - shared_scripts:/unified-views/scripts
       - shared_backend:/unified-views/backend
       - shared_logs:/unified-views/logs
     ports:
@@ -171,7 +168,6 @@ volumes:
   shared_config:
   shared_dpu:
   shared_lib:
-  # shared_scripts:
   demo_data:
   shared_logs:
   shared_backend:
