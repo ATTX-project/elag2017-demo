@@ -52,13 +52,11 @@ if (!project.hasProperty("testEnv") || project.testEnv == "dev") {
 // if there different combinations need to be tested
 
 ext {
-    testImageWF = "latest"
+    testImageUVProv = "latest"
     testImageGM = "latest"
     testImageFuseki = "latest"
     testImageES5 = "latest"
     testImageESSiren = "latest"
-    testImageUVShared = "latest"
-    testImageATTXDPUs = "latest"
 }
 
 
@@ -73,14 +71,14 @@ dcompose {
     shared {
         forcePull = true
         forceRemoveImage = true
-        image = "${imageRepo}:${imageRepoPort}/uv-attx-shared:${testImageUVShared}"
+        image = "attxproject/unified-views-shared:stable-1.2"
         networks = [pdTest]
     }
 
     mysql {
         forcePull = true
         forceRemoveImage = true
-        image = 'tenforce/unified-views-mariadb:feat-compact-modular'
+        image = 'attxproject/unified-views-mariadb:stable-1.2'
         env = ['MYSQL_ROOT_PASSWORD=iamroot!']
         networks = [pdTest]
         hostName = 'mysql'
@@ -91,7 +89,7 @@ dcompose {
     backend {
         forcePull = true
         forceRemoveImage = true
-        image = 'tenforce/unified-views-backend:latest'
+        image = 'attxproject/unified-views-backend:stable-1.2'
         volumesFrom =  [shared]
         dependsOn = [mysql, shared]
         networks = [pdTest]
@@ -100,7 +98,7 @@ dcompose {
     frontend {
         forcePull = true
         forceRemoveImage = true
-        image = 'tenforce/unified-views-frontend:latest'
+        image = 'attxproject/unified-views-frontend:stable-1.2'
         volumesFrom = [shared]
         dependsOn = [backend, shared]
         networks = [pdTest]
@@ -112,7 +110,7 @@ dcompose {
 
     attxdpus {
         forceRemoveImage = true
-        image = "${imageRepo}:${imageRepoPort}/uv-attx-dpus:${testImageATTXDPUs}"
+        image = "attxproject/uv-attx-dpus:elag2017"
         links = [frontend.link(), mysql.link(), backend.link()]
         dependsOn = [mysql, backend, frontend]
         networks = [pdTest]
@@ -152,13 +150,13 @@ dcompose {
         }
     }
 
-    wfapi {
+    uvprov {
         forcePull = true
         forceRemoveImage = true
-        image = "${imageRepo}:${imageRepoPort}/wf-api:${testImageWF}"
+        image = "${imageRepo}:${imageRepoPort}/uv-prov:${testImageUVProv}"
         dependsOn = [mysql]
         networks = [pdTest]
-        hostName = 'wfapi'
+        hostName = 'uvprov'
         if (testSet == "localhost") {
             portBindings = ['4301:4301']
         }
@@ -168,7 +166,7 @@ dcompose {
         forcePull = true
         forceRemoveImage = true
         image = "${imageRepo}:${imageRepoPort}/gm-api:${testImageGM}"
-        dependsOn = [frontend, backend, shared, attxdpus, mysql, wfapi, essiren, fuseki, es5]
+        dependsOn = [frontend, backend, shared, attxdpus, mysql, uvprov, essiren, fuseki, es5]
         networks = [pdTest]
         hostName = 'gmapi'
         if (testSet == "localhost") {

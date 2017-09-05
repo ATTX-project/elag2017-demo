@@ -2,7 +2,7 @@ version: '3'
 services:
 
   mysql:
-    image: attxtest/unified-views-mariadb:stable-1.2
+    image: attxproject/unified-views-mariadb:stable-1.2
 #    volumes:
 #      - /uv-data/mysql:/var/lib/mysql
     environment:
@@ -14,7 +14,7 @@ services:
         constraints: [node.hostname == attx-swarm-1]
 
   shared:
-    image: attxtest/unified-views-shared:stable-1.2
+    image: attxproject/unified-views-shared:stable-1.2
     volumes:
       - shared_config:/unified-views/config
       - shared_dpu:/unified-views/dpu
@@ -31,7 +31,7 @@ services:
         constraints: [node.hostname == attx-swarm-1]
 
   backend:
-    image: attxtest/unified-views-backend:stable-1.2
+    image: attxproject/unified-views-backend:stable-1.2
     volumes:
       - shared_config:/unified-views/config
       - shared_dpu:/unified-views/dpu
@@ -49,7 +49,7 @@ services:
         constraints: [node.hostname == attx-swarm-1]
 
   frontend:
-    image: attxtest/unified-views-frontend:stable-1.2
+    image: attxproject/unified-views-frontend:stable-1.2
     volumes:
       - shared_config:/unified-views/config
       - shared_dpu:/unified-views/dpu
@@ -79,7 +79,7 @@ services:
 #      - frontend
 
   attx-dpus:
-    image: attxtest/uv-attx-dpus:elag2017
+    image: attxproject/uv-attx-dpus:elag2017
     networks:
       - attx
     depends_on:
@@ -90,8 +90,8 @@ services:
       placement:
         constraints: [node.hostname == attx-swarm-1]
 
-  wfapi:
-    image: attxproject/wf-api:1.0
+  uvprov:
+    image: attxproject/uv-prov:1.0
     networks:
       - attx
     depends_on:
@@ -149,7 +149,7 @@ services:
       - fuseki
       - essiren
       - elasticsearch5
-      - wfapi
+      - uvprov
     # deploy:
     #   placement:
     #     constraints: [node.hostname == attx-swarm-2]
